@@ -1,0 +1,61 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class Collaboration {
+    private String name;
+    private Map<String, Course> grades;
+
+    public Student(String name) {
+        this.name = name;
+        this.grades = new HashMap<>();
+    }
+
+    public void addGrade(String courseName, double score, int credits) {
+        grades.put(courseName, new Course(score, credits));
+    }
+
+    public double calculateGPA() {
+        double totalPoints = 0;
+        int totalCredits = 0;
+
+        for (Course course : grades.values()) {
+            totalPoints += course.getScore() * course.getCredits();
+            totalCredits += course.getCredits();
+        }
+
+        return totalCredits > 0 ? Math.round((totalPoints / totalCredits) * 100.0) / 100.0 : 0.0;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+class Course {
+    private double score;
+    private int credits;
+
+    public Course(double score, int credits) {
+        this.score = score;
+        this.credits = credits;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+}
+
+public class GPACalculator {
+    public static void main(String[] args) {
+        Student student1 = new Student("Alice");
+        student1.addGrade("Math", 90, 3);
+        student1.addGrade("English", 85, 2);
+        student1.addGrade("Science", 95, 4);
+
+        System.out.println(student1.getName() + "'s GPA: " + student1.calculateGPA());
+    }
+}
